@@ -1,119 +1,22 @@
 <?php
 
+namespace MetzWeb\Instagram;
+
 /**
- * Zend Framework (http://framework.zend.com/)
+ * Instagram API class
  *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * API Documentation: http://instagram.com/developer/
+ * Class Documentation: https://github.com/cosenary/Instagram-PHP-API
+ *
+ * @author Christian Metz
+ * @since 30.10.2011
+ * @copyright Christian Metz - MetzWeb Networks 2011-2014
+ * @version 2.2
+ * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
-
-namespace Instagram\Controller;
-
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Closerlocate\Form\ContactForm;
-use Closerlocate\Model;
-use Zend\Mail;
-use Instagram\Form\InstagramForm;
-#Authenticate
-
-class InstagramController extends AbstractActionController {
-    public function indexAction()
-    {   $form = new InstagramForm();
-        $cf = $this->getServiceLocator()->get('Config');
-      //  echo $cf["config"]["access_token"];
-        $request = $this->getRequest();
-        if($request->isPost()){
-            $data = $request->getPost();
-            $form->setData($data);
-        if($form->isValid()){
-            $longtitude =$data["longtitude"];
-            $latitude =$data["latitude"];
-            $distance =$data["distance"];
-         $result =$this->searchMedia($latitude, $longtitude, $distance, null, null);
-         return new ViewModel(array('form'=>$form,'result'=>$result));
-        }
-        }
-        return new ViewModel(array('form'=>$form));
-    }
-    public function testtableAction(){
-        return new ViewModel();
-    }
-
-    protected function _makeCall($function, $auth = false, $params = null, $method = 'GET')
-    {   
-        $cf = $this->getServiceLocator()->get('Config');
-      //  echo $cf["config"]["access_token"];
-        $accessToken= $cf["config"]["access_token"];
-        $clientKey =$cf["config"]["client_id"];
-        if (!$auth) {
-            // if the call doesn't requires authentication
-            $authMethod = '?client_id=' . $clientKey;
-        } else {
-            // if the call needs an authenticated user
-            if (!isset($accessToken)) {
-                throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
-            }
-
-            $authMethod = '?access_token=' . $this->getAccessToken();
-        }
-
-        $paramString = null;
-
-        if (isset($params) && is_array($params)) {
-            $paramString = '&' . http_build_query($params);
-        }
-
-        $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
-
-        // signed header of POST/DELETE requests
-        $headerData = array('Accept: application/json');
-
-        if ($this->_signedheader && 'GET' !== $method) {
-            $headerData[] = 'X-Insta-Forwarded-For: ' . $this->_signHeader();
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $apiCall);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-
-        switch ($method) {
-            case 'POST':
-                curl_setopt($ch, CURLOPT_POST, count($params));
-                curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
-                break;
-            case 'DELETE':
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-                break;
-        }
-
-        $jsonData = curl_exec($ch);
-        // split header from JSON data
-        // and assign each to a variable
-        list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
-
-        // convert header content into an array
-        $headers = $this->processHeaders($headerContent);
-
-        // get the 'X-Ratelimit-Remaining' header value
-       // print_r($headers);exit;
-       // $this->_xRateLimitRemaining = ($headers['X-Ratelimit-Remaining'])?$headers['X-Ratelimit-Remaining']:1000;
-
-        if (!$jsonData) {
-            throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
-        }
-
-        curl_close($ch);
-
-        return json_decode($jsonData);
-    }
-     /**
+class Instagram
+{
+    /**
      * The API base URL.
      */
     const API_URL = 'https://api.instagram.com/v1/';
@@ -193,20 +96,20 @@ class InstagramController extends AbstractActionController {
      *
      * @throws \MetzWeb\Instagram\InstagramException
      */
-//    public function __construct($config)
-//    {
-//        if (is_array($config)) {
-//            // if you want to access user data
-//            $this->setApiKey($config['apiKey']);
-//            $this->setApiSecret($config['apiSecret']);
-//            $this->setApiCallback($config['apiCallback']);
-//        } elseif (is_string($config)) {
-//            // if you only want to access public data
-//            $this->setApiKey($config);
-//        } else {
-//            throw new InstagramException('Error: __construct() - Configuration data is missing.');
-//        }
-//    }
+    public function __construct($config)
+    {
+        if (is_array($config)) {
+            // if you want to access user data
+            $this->setApiKey($config['apiKey']);
+            $this->setApiSecret($config['apiSecret']);
+            $this->setApiCallback($config['apiCallback']);
+        } elseif (is_string($config)) {
+            // if you only want to access public data
+            $this->setApiKey($config);
+        } else {
+            throw new InstagramException('Error: __construct() - Configuration data is missing.');
+        }
+    }
 
     /**
      * Generates the OAuth login URL.
@@ -659,6 +562,86 @@ class InstagramController extends AbstractActionController {
         $result = $this->_makeOAuthCall($apiData);
 
         return !$token ? $result : $result->access_token;
+    }
+
+    /**
+     * The call operator.
+     *
+     * @param string $function API resource path
+     * @param bool $auth Whether the function requires an access token
+     * @param array $params Additional request parameters
+     * @param string $method Request type GET|POST
+     *
+     * @return mixed
+     *
+     * @throws \MetzWeb\Instagram\InstagramException
+     */
+    protected function _makeCall($function, $auth = false, $params = null, $method = 'GET')
+    {
+        if (!$auth) {
+            // if the call doesn't requires authentication
+            $authMethod = '?client_id=' . $this->getApiKey();
+        } else {
+            // if the call needs an authenticated user
+            if (!isset($this->_accesstoken)) {
+                throw new InstagramException("Error: _makeCall() | $function - This method requires an authenticated users access token.");
+            }
+
+            $authMethod = '?access_token=' . $this->getAccessToken();
+        }
+
+        $paramString = null;
+
+        if (isset($params) && is_array($params)) {
+            $paramString = '&' . http_build_query($params);
+        }
+
+        $apiCall = self::API_URL . $function . $authMethod . (('GET' === $method) ? $paramString : null);
+
+        // signed header of POST/DELETE requests
+        $headerData = array('Accept: application/json');
+
+        if ($this->_signedheader && 'GET' !== $method) {
+            $headerData[] = 'X-Insta-Forwarded-For: ' . $this->_signHeader();
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $apiCall);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headerData);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 90);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+
+        switch ($method) {
+            case 'POST':
+                curl_setopt($ch, CURLOPT_POST, count($params));
+                curl_setopt($ch, CURLOPT_POSTFIELDS, ltrim($paramString, '&'));
+                break;
+            case 'DELETE':
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+                break;
+        }
+
+        $jsonData = curl_exec($ch);
+        // split header from JSON data
+        // and assign each to a variable
+        list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);
+
+        // convert header content into an array
+        $headers = $this->processHeaders($headerContent);
+
+        // get the 'X-Ratelimit-Remaining' header value
+        $this->_xRateLimitRemaining = $headers['X-Ratelimit-Remaining'];
+
+        if (!$jsonData) {
+            throw new InstagramException('Error: _makeCall() - cURL error: ' . curl_error($ch));
+        }
+
+        curl_close($ch);
+
+        return json_decode($jsonData);
     }
 
     /**

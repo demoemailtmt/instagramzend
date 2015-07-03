@@ -43,9 +43,18 @@ if ($zf2Path) {
         include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
         Zend\Loader\AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
-                'autoregister_zf' => true
+                'autoregister_zf' => true,
+//                'namespaces' => array(
+//                    'InstagramLib' => dirname(__DIR__) . '/vendor/InstagramLib',
+//                )
             )
         ));
+//        Zend\Loader\AutoloaderFactory::factory(array(
+//            'Zend\Loader\StandardAutoloader' => array(
+//            'namespaces' => array(
+//        'InstagramLib' => dirname(__DIR__) . '/vendor/InstagramLib',
+//    )
+//)));
     }
 }
 

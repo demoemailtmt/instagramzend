@@ -35,3 +35,12 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+.img-slide {
+    margin: 0 auto;
+    padding-left: 5%;
+    padding-right: 5%;
+    z-index: 1000;
+}
+.carousel-indicators li.active {
+    background: #0066ff none repeat scroll 0 0;
+}

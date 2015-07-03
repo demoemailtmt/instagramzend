@@ -26,8 +26,11 @@ return array(
         // An array of paths from which to glob configuration files after
         // modules are loaded. These effectively override configuration
         // provided by modules themselves. Paths may use GLOB_BRACE notation.
+//        'config_glob_paths' => array(
+//            'config/autoload/{{,*.}global,{,*.}local}.php',
+//        ),
         'config_glob_paths' => array(
-            'config/autoload/{{,*.}global,{,*.}local}.php',
+            'config/autoload/{,*.}{global,local}.php',
         ),
 
         // Whether or not to enable a configuration cache.
