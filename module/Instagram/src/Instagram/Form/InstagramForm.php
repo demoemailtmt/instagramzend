@@ -49,22 +49,22 @@ class InstagramForm extends Form {
 //                    ),
                     'validators' => array(
                         array(
-//                            'name' => 'Between',
-//                            'options' => array(
-//                                'min' => -180,
-//                                'max' => 180,
-//                                'message' => array(
-//                                    'min' => 'must be more than %min% ',
-//                                    'max' => 'must be less than %max%',)
-//                            ),
-                            'name' => 'Float',
+                            'name' => 'Regex',
+                            'options' => array(
+                                'pattern' => '/(?:\d*\.)?\d+/',
+                                'message' => array(
+                                    'error' => 'must be number')
+                            ),
+                        ),
+                        array(
+                            'name' => 'Between',
                             'options' => array(
                                 'min' => -180,
                                 'max' => 180,
                                 'message' => array(
-                                    'min' => 'must be more than %min% ',
-                                    'max' => 'must be less than %max%',)
-                            )
+                                    'min' => 'must be more than or equal to %min% ',
+                                    'max' => 'must be less than or equal to %max%',)
+                            ),
                         )
                     )
         )));
@@ -76,51 +76,48 @@ class InstagramForm extends Form {
 //                    ),
                     'validators' => array(
                         array(
-//                            'name' => 'Between',
-//                            'options' => array(
-//                                'min' => -90,
-//                                'max' => 90,
-//                                'message' => array(
-//                                    'min' => 'must be more than %min% ',
-//                                    'max' => 'must be less than %max%',)
-//                            ),
-                            'name' => 'Float',
+                            'name' => 'Regex',
+                            'options' => array(
+                                'pattern' => '/[0-9.-]+/',
+                                'message' => array(
+                                    'error' => 'must be number')
+                            ),
+                        ),
+                        array(
+                            'name' => 'Between',
                             'options' => array(
                                 'min' => -90,
                                 'max' => 90,
                                 'message' => array(
-                                    'min' => 'must be more than %min% ',
-                                    'max' => 'must be less than %max%',)
-                            )
-                        ),
-                    ),
+                                    'min' => 'must be more than or equal to %min% ',
+                                    'max' => 'must be less than or equal to %max%',)
+                            ),
+                        )
+                    )
         )));
         $inputfilter->add($factory->createInput(array(
                     'name' => 'distance',
                     'required' => true,
-//                    'filters' => array(
-//                        array('name' => 'int'),
-//                    ),
                     'validators' => array(
                         array(
-//                            'name' => 'Between',
-//                            'options' => array(
-//                                'min' => 0,
-//                                'max' => 1000,
-//                                'message' => array(
-//                                    'min' => 'must be more than %min% ',
-//                                    'max' => 'must be less than %max%',)
-//                            ),
-                            'name' => 'Float',
+                            'name' => 'Regex',
+                            'options' => array(
+                                'pattern' => '/[0-9.-]+/',
+                                'message' => array(
+                                    'error' => 'must be number')
+                            ),
+                        ),
+                        array(
+                            'name' => 'Between',
                             'options' => array(
                                 'min' => 0,
                                 'max' => 1000,
                                 'message' => array(
-                                    'min' => 'must be more than %min% ',
-                                    'max' => 'must be less than %max%',)
-                            )
-                        ),
-                    ),
+                                    'min' => 'must be more than or equal to %min% ',
+                                    'max' => 'must be less than or equal to %max%',)
+                            ),
+                        )
+                    )
         )));
         //Latitudes range from -90 to 90.
         //Longitudes range from -180 to 180.
