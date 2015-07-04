@@ -42,11 +42,12 @@ class InstagramController extends AbstractActionController {
     }
 
     protected function _makeCall($function, $auth = false, $params = null, $method = 'GET')
-    {   
+    {   //'access_token'=>"1953016610.8c7478e.550be686ec1f486099ccab8aba370b16",
+        //'client_id'=>"8c7478e0442d4e4ea0ecab768e66b7e2"
         $cf = $this->getServiceLocator()->get('Config');
         echo $cf["config"]["access_token"];echo "hehehe";exit;
-        $accessToken= $cf["config"]["access_token"];
-        $clientKey =$cf["config"]["client_id"];
+        $accessToken= "1953016610.8c7478e.550be686ec1f486099ccab8aba370b16";//$cf["config"]["access_token"];
+        $clientKey ="8c7478e0442d4e4ea0ecab768e66b7e2";//$cf["config"]["client_id"];
         if (!$auth) {
             // if the call doesn't requires authentication
             $authMethod = '?client_id=' . $clientKey;
