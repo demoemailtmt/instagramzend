@@ -51,7 +51,7 @@ class InstagramForm extends Form {
                         array(
                             'name' => 'Regex',
                             'options' => array(
-                                'pattern' => '/(?:\d*\.)?\d+/',
+                                'pattern' => '/[0-9.-]+/',
                                 'message' => array(
                                     'error' => 'must be number')
                             ),
@@ -111,7 +111,7 @@ class InstagramForm extends Form {
                             'name' => 'Between',
                             'options' => array(
                                 'min' => 0,
-                                'max' => 1000,
+                                'max' => 10000,
                                 'message' => array(
                                     'min' => 'must be more than or equal to %min% ',
                                     'max' => 'must be less than or equal to %max%',)

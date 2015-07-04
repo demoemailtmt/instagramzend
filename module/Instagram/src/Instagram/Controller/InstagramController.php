@@ -415,7 +415,7 @@ class InstagramController extends AbstractActionController {
      *
      * @return mixed
      */
-    public function searchMedia($lat, $lng, $distance = 1000, $minTimestamp = null, $maxTimestamp = null)
+    public function searchMedia($lat, $lng, $distance = 10000, $minTimestamp = null, $maxTimestamp = null)
     {
         return $this->_makeCall('media/search', false, array(
             'lat' => $lat,
