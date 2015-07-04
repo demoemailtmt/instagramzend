@@ -44,7 +44,7 @@ class InstagramController extends AbstractActionController {
     protected function _makeCall($function, $auth = false, $params = null, $method = 'GET')
     {   
         $cf = $this->getServiceLocator()->get('Config');
-      //  echo $cf["config"]["access_token"];
+        echo $cf["config"]["access_token"];exit;
         $accessToken= $cf["config"]["access_token"];
         $clientKey =$cf["config"]["client_id"];
         if (!$auth) {
