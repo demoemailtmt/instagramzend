@@ -49,22 +49,22 @@ class InstagramForm extends Form {
 //                    ),
                     'validators' => array(
                         array(
-                            'name' => 'Between',
-                            'options' => array(
-                                'min' => -180,
-                                'max' => 180,
-                                'message' => array(
-                                    'min' => 'must be more than %min% ',
-                                    'max' => 'must be less than %max%',)
-                            ),
-//                            'name' => 'Float',
+//                            'name' => 'Between',
 //                            'options' => array(
 //                                'min' => -180,
 //                                'max' => 180,
 //                                'message' => array(
 //                                    'min' => 'must be more than %min% ',
 //                                    'max' => 'must be less than %max%',)
-//                            )
+//                            ),
+                            'name' => 'Float',
+                            'options' => array(
+                                'min' => -180,
+                                'max' => 180,
+                                'message' => array(
+                                    'min' => 'must be more than %min% ',
+                                    'max' => 'must be less than %max%',)
+                            )
                         )
                     )
         )));
@@ -76,22 +76,22 @@ class InstagramForm extends Form {
 //                    ),
                     'validators' => array(
                         array(
-                            'name' => 'Between',
-                            'options' => array(
-                                'min' => -90,
-                                'max' => 90,
-                                'message' => array(
-                                    'min' => 'must be more than %min% ',
-                                    'max' => 'must be less than %max%',)
-                            ),
-//                            'name' => 'Float',
+//                            'name' => 'Between',
 //                            'options' => array(
 //                                'min' => -90,
 //                                'max' => 90,
 //                                'message' => array(
 //                                    'min' => 'must be more than %min% ',
 //                                    'max' => 'must be less than %max%',)
-//                            )
+//                            ),
+                            'name' => 'Float',
+                            'options' => array(
+                                'min' => -90,
+                                'max' => 90,
+                                'message' => array(
+                                    'min' => 'must be more than %min% ',
+                                    'max' => 'must be less than %max%',)
+                            )
                         ),
                     ),
         )));
@@ -103,22 +103,22 @@ class InstagramForm extends Form {
 //                    ),
                     'validators' => array(
                         array(
-                            'name' => 'Between',
-                            'options' => array(
-                                'min' => 0,
-                                'max' => 1000,
-                                'message' => array(
-                                    'min' => 'must be more than %min% ',
-                                    'max' => 'must be less than %max%',)
-                            ),
-//                            'name' => 'Float',
+//                            'name' => 'Between',
 //                            'options' => array(
 //                                'min' => 0,
 //                                'max' => 1000,
 //                                'message' => array(
 //                                    'min' => 'must be more than %min% ',
 //                                    'max' => 'must be less than %max%',)
-//                            )
+//                            ),
+                            'name' => 'Float',
+                            'options' => array(
+                                'min' => 0,
+                                'max' => 1000,
+                                'message' => array(
+                                    'min' => 'must be more than %min% ',
+                                    'max' => 'must be less than %max%',)
+                            )
                         ),
                     ),
         )));
