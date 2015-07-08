@@ -1,0 +1,11 @@
+<phpunit
+    bootstrap="./Bootstrap.php"
+    colors="false"
+    backupGlobals="false"
+>
+    <testsuites>
+        <testsuite name="Test Suite">
+            <directory>./module</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

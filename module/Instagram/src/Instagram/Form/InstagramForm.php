@@ -24,7 +24,7 @@ class InstagramForm extends Form {
 
         $longtitude = new Element\Text('longtitude');
         $longtitude->setLabel('Longtitude:');
-        $longtitude->setAttributes(array("type" => "text", "autofocus" => "", "placeholder" => "Longtitude", "class" => "form-control"));
+        $longtitude->setAttributes(array("type" => "text", "autofocus" => "", "placeholder" => "Longitude", "class" => "form-control"));
         $this->add($longtitude);
         //<input type="email" autofocus="" name="email" placeholder="E-mail" class="form-control">
         $latitude = new Element\Text('latitude');
